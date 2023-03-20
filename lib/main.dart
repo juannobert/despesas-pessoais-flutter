@@ -43,7 +43,6 @@ class MyHomePage extends StatelessWidget{
         )
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch, //Estica os elemento ao máximo sem precisar definir a largura
         children: [
         SizedBox(
@@ -100,8 +99,39 @@ class MyHomePage extends StatelessWidget{
               ],
               )
             );
-          }).toList() // Retorna uma lista de cards que são widgets
-       )
+          }).toList(), // Retorna uma lista de cards que são widgets
+       ),
+       Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(children:  [
+               const TextField(
+                  decoration:  InputDecoration(
+                    labelText:"Título"
+                  ),
+                ),
+                const TextField(
+                  decoration:  InputDecoration(
+                    labelText:"Valor"
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:  [
+                    TextButton(
+                    onPressed: () {}, 
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.purple,
+                    ),
+                    child:  const Text("Salvar transação"),
+                    
+                    ),
+                  ],
+                )
+              ]),
+            ),
+          )
       ],)
     );
   }
