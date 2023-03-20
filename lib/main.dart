@@ -1,3 +1,4 @@
+import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 main() => runApp(const ExpensesApp());
@@ -17,6 +18,21 @@ class ExpensesApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget{
   const MyHomePage({super.key});
 
+  final  _transactions = [
+    Transaction(
+      id : 't1',
+      title : 'Tênis da nike',
+      date: DateTime.now(),
+      value: 300.50
+    ),
+     Transaction(
+      id : 't2',
+      title : 'Conta de luz',
+      date: DateTime.now(),
+      value: 250
+    ),
+
+  ]
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +53,7 @@ class MyHomePage extends StatelessWidget{
             elevation: 5,
           ),
         ),
-        const Card(
+        Card(
           child: Text("Lista de transações"),
         )
       ],)
