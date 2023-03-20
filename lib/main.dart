@@ -7,7 +7,7 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  const MaterialApp(
       home:  MyHomePage(),
       
     );
@@ -25,11 +25,22 @@ class MyHomePage extends StatelessWidget{
           "Despesas Pessoais"
         )
       ),
-      body: const Center(
-        child:  Text(
-          "Versão inicial"
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch, //Estica os elemento ao máximo sem precisar definir a largura
+        children: [
+        SizedBox(
+          width: double.infinity,
+          child: Card(
+            child:  Text("Gráfico"),
+            color: Colors.blue,
+            elevation: 5,
+          ),
         ),
-      ),
+        const Card(
+          child: Text("Lista de transações"),
+        )
+      ],)
     );
   }
     
