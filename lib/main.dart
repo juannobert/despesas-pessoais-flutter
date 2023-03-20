@@ -8,7 +8,7 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return  MaterialApp(
       home:  MyHomePage(),
       
     );
@@ -16,7 +16,7 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget{
-  const MyHomePage({super.key});
+  MyHomePage({super.key});
 
   final  _transactions = [
     Transaction(
@@ -32,7 +32,7 @@ class MyHomePage extends StatelessWidget{
       value: 250
     ),
 
-  ]
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +53,14 @@ class MyHomePage extends StatelessWidget{
             elevation: 5,
           ),
         ),
-        Card(
-          child: Text("Lista de transações"),
-        )
+       Column(
+        children: 
+          _transactions.map((tr) {
+            return Card(
+              child : Text(tr.title)
+            );
+          }).toList() // Retorna uma lista de cards que são widgets
+       )
       ],)
     );
   }
