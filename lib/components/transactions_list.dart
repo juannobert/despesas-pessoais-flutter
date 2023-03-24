@@ -10,11 +10,30 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350,
-      child: SingleChildScrollView( // Tornando compoenete rolavel (precisa ter uma altura)
-        child: Column(
-            children: 
-              transactionList.map((tr) {
-                return Card(
+      child: transactionList.isEmpty ? 
+      Column(
+        children: [
+          Text(
+            "Nenhuma transação cadastrada",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 200,
+            child: Image.asset(
+              "assets/images/waiting.png",
+              fit: BoxFit.cover, //Vai se ajustar de acordo com o tamanho do container
+
+            ),
+          )
+        ],
+      )
+      :
+      ListView.builder( // Tornando compoenete rolavel (precisa ter uma altura) (Podr ser usado o SingleChildScrollView tb)
+        itemCount: transactionList.length, //O list view faz o melhor gerênciamento dos dados
+        itemBuilder: (ctx,index){//Renderiza apenas os dados que serão exibidos na tela 
+          final tr = transactionList[index];
+          return Card(
                   child : Row(children: [
                     Container(
                       margin: const EdgeInsets.symmetric(
@@ -23,8 +42,8 @@ class TransactionList extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.purple,
-                          width: 2
+                          width: 2,
+                          color: Theme.of(context).primaryColor
                         ),
                       ),
                       padding: const EdgeInsets.all(10),
@@ -42,10 +61,8 @@ class TransactionList extends StatelessWidget {
                       children: [
                         Text(
                           tr.title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold
-                          ),),
+                          style:  Theme.of(context).textTheme.titleMedium // Chamando tema de texto personalizado 
+                        ),
                         Text(
                           DateFormat('d MMM y').format(tr.date),
                           style: const TextStyle(
@@ -57,9 +74,9 @@ class TransactionList extends StatelessWidget {
                   ],
                   )
                 );
-              }).toList(), // Retorna uma lista de cards que são widgets
-           ),
-      ),
-    );
+        },
+           // Retorna uma lista de cards que são widgets
+    ),
+  );
   }
 }
