@@ -1,8 +1,9 @@
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transactions_list.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 main() => runApp(const ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
@@ -31,7 +32,8 @@ class ExpensesApp extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold
            )
-        )
+        ),
+        
       )
       
     );
@@ -52,28 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   
   final List<Transaction> _transactions = [
-    /*
-    Transaction(
-      id : 't1',
-      title : 'Tênis da nike',
-      date: DateTime.now(),
-      value: 300.50
-    ),
-     Transaction(
-      id : 't2',
-      title : 'Conta de luz',
-      date: DateTime.now(),
-      value: 250
-    ),
-    */
+    
+    
   ];
 
-  _addTransaction(String title,double value){
+  _removeTransaction(String id){
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
+  _addTransaction(String title,double value,DateTime time){
     final newTransaction = Transaction(
       id: '', 
       title: title, 
       value: value,
-      date: DateTime.now(), 
+      date: time, 
     );
       setState(() {
      _transactions.add(newTransaction);
@@ -91,6 +87,17 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     );
   }
+
+  List<Transaction> get _recentTransactions{
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7) //Pegndo as transações apenas da semana atual
+        //Se a data for 7 dias passada não será contabilizada
+      ));
+    }).toList();
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -112,15 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch, //Estica os elemento ao máximo sem precisar definir a largura
           children: [
-          const SizedBox(
+          SizedBox(
             width: double.infinity,
-            child: Card(
-              color: Colors.blue,
-              elevation: 5,
-              child: Text("Gráfico"),
-            ),
+            child: Chart(_recentTransactions)
           ),
-          TransactionList(_transactions)
+          TransactionList(_transactions,_removeTransaction)
         ],),
       ),
       floatingActionButton: FloatingActionButton( //Adiciona botão no rodapé

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  const TransactionList(this.transactionList,{super.key});
+  const TransactionList(this.transactionList,this.onRemove,{super.key});
   final List<Transaction> transactionList;
+  final void Function(String) onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -34,46 +35,27 @@ class TransactionList extends StatelessWidget {
         itemBuilder: (ctx,index){//Renderiza apenas os dados que serão exibidos na tela 
           final tr = transactionList[index];
           return Card(
-                  child : Row(children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          color: Theme.of(context).primaryColor
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        'R\$ ${tr.value.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.purple
-                        ),
-                        ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          tr.title,
-                          style:  Theme.of(context).textTheme.titleMedium // Chamando tema de texto personalizado 
-                        ),
-                        Text(
-                          DateFormat('d MMM y').format(tr.date),
-                          style: const TextStyle(
-                            color: Colors.grey
-                          )
-                        )
-                      ],
-                    )
-                  ],
-                  )
-                );
+            elevation: 5,
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 30,
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                child: FittedBox(child: Text('R\$${tr.value}')),),
+              ),
+              title: Text(
+                tr.title,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              subtitle: Text(
+                DateFormat('d MMM y').format(tr.date)
+              ),
+              trailing: IconButton(
+                onPressed: () => onRemove, 
+                icon: const Icon(Icons.delete)),
+                iconColor: const ColorScheme.dark().error
+            ),
+          );
         },
            // Retorna uma lista de cards que são widgets
     ),
