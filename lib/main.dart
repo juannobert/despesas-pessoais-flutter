@@ -1,3 +1,4 @@
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transactions_list.dart';
 import 'package:expenses/models/transaction.dart';
@@ -10,6 +11,7 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
         home: const MyHomePage(),
         theme: ThemeData(
@@ -27,6 +29,34 @@ class ExpensesApp extends StatelessWidget {
                     fontFamily: 'OpenSans',
                     fontSize: 20,
                     fontWeight: FontWeight.bold))));
+=======
+    return  MaterialApp(
+      home: const MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        colorScheme: ColorScheme.fromSwatch(
+        accentColor:Colors.amber 
+        ),
+        fontFamily: 'Quicksand', //Adicionando fonte
+        textTheme: const TextTheme(
+         titleMedium: TextStyle(
+          fontFamily: 'OpenSans',
+            fontSize: 18,
+            fontWeight: FontWeight.bold
+         )
+        ),
+        appBarTheme: const AppBarTheme(
+           titleTextStyle: TextStyle( //Mudando tema do título do appBar
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+           )
+        ),
+        
+      )
+      
+    );
+>>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
   }
 }
 
@@ -43,28 +73,30 @@ class _MyHomePageState extends State<MyHomePage> {
   final valueController = TextEditingController();
 
   final List<Transaction> _transactions = [
-    /*
-    Transaction(
-      id : 't1',
-      title : 'Tênis da nike',
-      date: DateTime.now(),
-      value: 300.50
-    ),
-     Transaction(
-      id : 't2',
-      title : 'Conta de luz',
-      date: DateTime.now(),
-      value: 250
-    ),
-    */
+    
+    
   ];
 
+<<<<<<< HEAD
   _addTransaction(String title, double value) {
+=======
+  _removeTransaction(String id){
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
+  _addTransaction(String title,double value,DateTime time){
+>>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
     final newTransaction = Transaction(
       id: '',
       title: title,
       value: value,
+<<<<<<< HEAD
       date: DateTime.now(),
+=======
+      date: time, 
+>>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
     );
     setState(() {
       _transactions.add(newTransaction);
@@ -81,6 +113,17 @@ class _MyHomePageState extends State<MyHomePage> {
           return TransactionForm(_addTransaction);
         });
   }
+
+  List<Transaction> get _recentTransactions{
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7) //Pegndo as transações apenas da semana atual
+        //Se a data for 7 dias passada não será contabilizada
+      ));
+    }).toList();
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment
               .stretch, //Estica os elemento ao máximo sem precisar definir a largura
           children: [
+<<<<<<< HEAD
             const SizedBox(
               width: double.infinity,
               child: Card(
@@ -113,6 +157,14 @@ class _MyHomePageState extends State<MyHomePage> {
             TransactionList(_transactions)
           ],
         ),
+=======
+          SizedBox(
+            width: double.infinity,
+            child: Chart(_recentTransactions)
+          ),
+          TransactionList(_transactions,_removeTransaction)
+        ],),
+>>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
       ),
       floatingActionButton: FloatingActionButton(
         //Adiciona botão no rodapé

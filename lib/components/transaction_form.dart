@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget{
   const TransactionForm(this.onSubmit,{super.key});
 
-  final Function(String,double) onSubmit;
+  final Function(String,double,DateTime) onSubmit;
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -14,6 +15,8 @@ class _TransactionFormState extends State<TransactionForm> {
 
   final valueController = TextEditingController();
 
+  DateTime selectedDate = DateTime.now();
+
   void _submitForm(){
      String title = titleController.text;
     //Tenta converter para double, se der erro retorna 0.0
@@ -21,8 +24,22 @@ class _TransactionFormState extends State<TransactionForm> {
     if(title.isEmpty || value <= 0){
       return;
     }
-    widget.onSubmit(title,value);
-}
+    widget.onSubmit(title,value,selectedDate);
+  }
+   _showDatePicker(){ // é uma função assincrona
+    showDatePicker(
+      context: super.context, //o context é recebido por herança
+      initialDate: DateTime.now(), //Data inicial que o componente irá mostrar 
+      firstDate: DateTime(2019), //Data mais antiga que poderá ser selecionada 
+      lastDate: DateTime.now() // Data mais recente que poderá ser selecionada
+    ).then((pickedDate) {//Será executado assim que o usuário selecionar a data
+      if(pickedDate == null) {return;}
+      setState(() {
+        selectedDate = pickedDate;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +72,41 @@ class _TransactionFormState extends State<TransactionForm> {
                     
                   ),
                 ),
+
+                SizedBox(
+                  height: 70,
+                  child: Row(
+                    children: [
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Text(
+                          'Data selecionada ${DateFormat("dd/MM/y").format(selectedDate)}'
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _showDatePicker, 
+                        child: Text(
+                          "Selecionar data",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor
+                          ),
+                        ))
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children:  [
-                    TextButton(
+                    ElevatedButton(
                     onPressed: () {
                      _submitForm();
                      }, 
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.purple,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      )
                     ),
                     child:  const Text("Salvar transação"),
                     ),
