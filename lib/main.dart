@@ -11,52 +11,24 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return MaterialApp(
         home: const MyHomePage(),
         theme: ThemeData(
-            primarySwatch: Colors.purple,
-            colorScheme: ColorScheme.fromSwatch(accentColor: Colors.amber),
-            fontFamily: 'Quicksand', //Adicionando fonte
-            textTheme: const TextTheme(
-                titleMedium: TextStyle(
-                    fontFamily: 'OpenSans',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold)),
-            appBarTheme: const AppBarTheme(
-                titleTextStyle: TextStyle(
-                    //Mudando tema do título do appBar
-                    fontFamily: 'OpenSans',
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold))));
-=======
-    return  MaterialApp(
-      home: const MyHomePage(),
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        colorScheme: ColorScheme.fromSwatch(
-        accentColor:Colors.amber 
-        ),
-        fontFamily: 'Quicksand', //Adicionando fonte
-        textTheme: const TextTheme(
-         titleMedium: TextStyle(
-          fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-         )
-        ),
-        appBarTheme: const AppBarTheme(
-           titleTextStyle: TextStyle( //Mudando tema do título do appBar
-            fontFamily: 'OpenSans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-           )
-        ),
-        
-      )
-      
-    );
->>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
+          primarySwatch: Colors.purple,
+          colorScheme: ColorScheme.fromSwatch(accentColor: Colors.amber),
+          fontFamily: 'Quicksand', //Adicionando fonte
+          textTheme: const TextTheme(
+              titleMedium: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold)),
+          appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                  //Mudando tema do título do appBar
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        ));
   }
 }
 
@@ -72,31 +44,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final valueController = TextEditingController();
 
-  final List<Transaction> _transactions = [
-    
-    
-  ];
+  final List<Transaction> _transactions = [];
 
-<<<<<<< HEAD
-  _addTransaction(String title, double value) {
-=======
-  _removeTransaction(String id){
+  _removeTransaction(String id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
     });
   }
 
-  _addTransaction(String title,double value,DateTime time){
->>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
+  _addTransaction(String title, double value, DateTime time) {
     final newTransaction = Transaction(
       id: '',
       title: title,
       value: value,
-<<<<<<< HEAD
-      date: DateTime.now(),
-=======
-      date: time, 
->>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
+      date: time,
     );
     setState(() {
       _transactions.add(newTransaction);
@@ -114,16 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  List<Transaction> get _recentTransactions{
+  List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
-        const Duration(days: 7) //Pegndo as transações apenas da semana atual
-        //Se a data for 7 dias passada não será contabilizada
+          const Duration(days: 7) //Pegndo as transações apenas da semana atual
+          //Se a data for 7 dias passada não será contabilizada
       ));
     }).toList();
   }
 
- 
 
   @override
   Widget build(BuildContext context) {
@@ -145,26 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment
               .stretch, //Estica os elemento ao máximo sem precisar definir a largura
           children: [
-<<<<<<< HEAD
-            const SizedBox(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                elevation: 5,
-                child: Text("Gráfico"),
-              ),
-            ),
-            TransactionList(_transactions)
+            SizedBox(width: double.infinity, child: Chart(_recentTransactions)),
+            TransactionList(_transactions, _removeTransaction)
           ],
         ),
-=======
-          SizedBox(
-            width: double.infinity,
-            child: Chart(_recentTransactions)
-          ),
-          TransactionList(_transactions,_removeTransaction)
-        ],),
->>>>>>> facb31c48a2ea8ffd5630441fc2eb4e303df87e5
       ),
       floatingActionButton: FloatingActionButton(
         //Adiciona botão no rodapé
