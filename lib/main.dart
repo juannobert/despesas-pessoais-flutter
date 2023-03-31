@@ -2,7 +2,7 @@ import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transactions_list.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 main() => runApp(const ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
@@ -10,35 +10,27 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: const MyHomePage(),
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        colorScheme: ColorScheme.fromSwatch(
-        accentColor:Colors.amber 
-        ),
-        fontFamily: 'Quicksand', //Adicionando fonte
-        textTheme: const TextTheme(
-         titleMedium: TextStyle(
-          fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-         )
-        ),
-        appBarTheme: const AppBarTheme(
-           titleTextStyle: TextStyle( //Mudando tema do título do appBar
-            fontFamily: 'OpenSans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold
-           )
-        )
-      )
-      
-    );
+    return MaterialApp(
+        home: const MyHomePage(),
+        theme: ThemeData(
+            primarySwatch: Colors.purple,
+            colorScheme: ColorScheme.fromSwatch(accentColor: Colors.amber),
+            fontFamily: 'Quicksand', //Adicionando fonte
+            textTheme: const TextTheme(
+                titleMedium: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+            appBarTheme: const AppBarTheme(
+                titleTextStyle: TextStyle(
+                    //Mudando tema do título do appBar
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))));
   }
 }
 
-class MyHomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
@@ -50,7 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final valueController = TextEditingController();
 
-  
   final List<Transaction> _transactions = [
     /*
     Transaction(
@@ -68,67 +59,68 @@ class _MyHomePageState extends State<MyHomePage> {
     */
   ];
 
-  _addTransaction(String title,double value){
+  _addTransaction(String title, double value) {
     final newTransaction = Transaction(
-      id: '', 
-      title: title, 
+      id: '',
+      title: title,
       value: value,
-      date: DateTime.now(), 
+      date: DateTime.now(),
     );
-      setState(() {
-     _transactions.add(newTransaction);
-   }); 
+    setState(() {
+      _transactions.add(newTransaction);
+    });
 
     //Retira primeira tela da arvores dos componentes(no caso o modal)
-   Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
-  _openFormModal(BuildContext context){
+  _openFormModal(BuildContext context) {
     showModalBottomSheet(
-    context: context, 
-    builder: (_){
-      return TransactionForm(_addTransaction);
-    }
-    );
+        context: context,
+        builder: (_) {
+          return TransactionForm(_addTransaction);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Theme.of(context).primaryColor,
-        title: const Text(
-          "Despesas Pessoais"
-        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text("Despesas Pessoais"),
         actions: [
-          IconButton( //Criando botão de icone
-            onPressed:  () => _openFormModal(context), 
-            icon: const Icon(Icons.add)
-          )
+          IconButton(
+              //Criando botão de icone
+              onPressed: () => _openFormModal(context),
+              icon: const Icon(Icons.add))
         ],
       ),
-      
-      body:  SingleChildScrollView ( // Tornando tela inteira rolavel
+
+      body: SingleChildScrollView(
+        // Tornando tela inteira rolavel
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch, //Estica os elemento ao máximo sem precisar definir a largura
+          crossAxisAlignment: CrossAxisAlignment
+              .stretch, //Estica os elemento ao máximo sem precisar definir a largura
           children: [
-          const SizedBox(
-            width: double.infinity,
-            child: Card(
-              color: Colors.blue,
-              elevation: 5,
-              child: Text("Gráfico"),
+            const SizedBox(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blue,
+                elevation: 5,
+                child: Text("Gráfico"),
+              ),
             ),
-          ),
-          TransactionList(_transactions)
-        ],),
+            TransactionList(_transactions)
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton( //Adiciona botão no rodapé
+      floatingActionButton: FloatingActionButton(
+        //Adiciona botão no rodapé
         onPressed: () => _openFormModal(context),
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, //Centraliza o botão no rodapé
+      floatingActionButtonLocation: FloatingActionButtonLocation
+          .centerFloat, //Centraliza o botão no rodapé
     );
   }
-
 }
